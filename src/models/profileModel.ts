@@ -87,4 +87,4 @@ const profileSchema = new Schema<IProfile>({
   data: { type: Date, default: Date.now },
 });
 
-export const profileModel = mongoose.model("Proflie", profileSchema);
+export const profileModel = mongoose.model("Profile", profileSchema);
