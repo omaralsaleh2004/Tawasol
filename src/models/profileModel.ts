@@ -40,7 +40,7 @@ interface IProfile extends Document {
   experience: [IExperience];
   education: [IEducation];
   social: [ISocial];
-  data: Date;
+  date: Date;
 }
 
 const experienceSchema = new Schema<IExperience>({
@@ -81,10 +81,10 @@ const profileSchema = new Schema<IProfile>({
   status: { type: String, required: true },
   skills: { type: [String], required: true },
   bio: { type: String },
-  experience: { type: [experienceSchema], required: true },
-  education: { type: [educationSchema], required: true },
+  experience: { type: [experienceSchema] },
+  education: { type: [educationSchema] },
   social: { type: [socialSchema], required: true },
-  data: { type: Date, default: Date.now },
+  date: { type: Date, default: Date.now },
 });
 
 export const profileModel = mongoose.model("Profile", profileSchema);
