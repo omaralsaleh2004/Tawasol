@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import userRoute from "./routes/userRoute";
 import dotenv from "dotenv";
 import cors from "cors";
+import profileRoute from "./routes/profileRoute";
 
 dotenv.config();
 const app = express();
@@ -16,7 +17,7 @@ mongoose
   .catch(() => console.log("Failed to connect"));
 
 app.use("/user", userRoute);
-
+app.use("/profile", profileRoute);
 app.listen(port, () => {
   console.log(`server is running at : http://localhost:${port}`);
 });
