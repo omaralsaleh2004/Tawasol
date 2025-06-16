@@ -156,10 +156,99 @@ router.put("/experience", validateJWT, async (req: ExtendRequest, res) => {
     profile.experience.unshift(req.body);
     await profile.save();
     res.status(200).json(profile);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
     res.status(500).json("something went wrong !");
   }
 });
+
+router.delete(
+  "/experience/:exp_id",
+  validateJWT,
+  async (req: ExtendRequest, res) => {
+    try {
+      const profile = await profileModel.findOne({ userId: req.user._id });
+
+      if (!profile) {
+        res.status(404).json("Profile not found");
+        return;
+      }
+
+      profile.experience = profile.experience.filter(
+        (exp) => exp._id.toString() !== req.params.exp_id
+      );
+
+      await profile.save();
+      res.status(200).json(profile);
+    } catch {
+      res.status(500).json("something went wrong !");
+    }
+  }
+);
+
+router.put("/education", validateJWT, async (req: ExtendRequest, res) => {
+  try {
+    if (!req.body.school) {
+      res.status(401).json("School is required");
+      return;
+    }
+    if (!req.body.degree) {
+      res.status(401).json("Degree is required");
+      return;
+    }
+    if (!req.body.from) {
+      res.status(401).json("From date is required and needs to be from past");
+      return;
+    }
+    if (!req.body.fieldofstudy) {
+      res.status(401).json("Feiled of study is required");
+      return;
+    }
+
+    if (req.body.to) {
+      const isNotValid = req.body.to < req.body.from;
+      if (isNotValid) {
+        res.status(401).json("Invalid date !");
+        return;
+      }
+    }
+
+    const profile = await profileModel.findOne({ userId: req.user._id });
+    if (!profile) {
+      res.status(404).json("Profile not found");
+      return;
+    }
+    profile.education.unshift(req.body);
+    await profile.save();
+    res.status(200).json(profile);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json("something went wrong !");
+  }
+});
+
+router.delete(
+  "/education/:edu_id",
+  validateJWT,
+  async (req: ExtendRequest, res) => {
+    try {
+      const profile = await profileModel.findOne({ userId: req.user._id });
+
+      if (!profile) {
+        res.status(404).json("Profile not found");
+        return;
+      }
+
+      profile.education = profile.education.filter(
+        (edu) => edu._id.toString() !== req.params.edu_id
+      );
+
+      await profile.save();
+      res.status(200).json(profile);
+    } catch {
+      res.status(500).json("something went wrong !");
+    }
+  }
+);
 
 export default router;

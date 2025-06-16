@@ -1,6 +1,7 @@
 import mongoose, { Document, ObjectId, Schema } from "mongoose";
 
 export interface IExperience {
+  _id: ObjectId;
   title: string;
   company: string;
   location: string;
@@ -11,6 +12,7 @@ export interface IExperience {
 }
 
 export interface IEducation {
+  _id: ObjectId;
   school: string;
   degree: string;
   fieldofstudy: string;
@@ -21,6 +23,7 @@ export interface IEducation {
 }
 
 export interface ISocial {
+  _id: ObjectId;
   youtube: string;
   twitter: string;
   facebook: string;
@@ -37,9 +40,9 @@ interface IProfile extends Document {
   status: string;
   skills: [string];
   bio: string;
-  experience: [IExperience];
-  education: [IEducation];
-  social: [ISocial];
+  experience: IExperience[];
+  education: IEducation[];
+  social: ISocial[];
   date: Date;
 }
 
