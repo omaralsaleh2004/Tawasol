@@ -4,6 +4,7 @@ import { ExtendRequest } from "../types/ExtendRequest";
 import { addorEditPost } from "../services/profileService";
 import { profileModel } from "../models/profileModel";
 import { userModel } from "../models/userModel";
+import multer from "multer";
 
 const router = express.Router();
 
@@ -93,5 +94,34 @@ router.delete("/", validateJWT, async (req: ExtendRequest, res) => {
   //TODO : Include deleting posts
   await profileModel.findOneAndDelete({ userId: req.user._id });
   await userModel.findByIdAndDelete({ _id: req.user._id });
+});
+
+router.post("upload", validateJWT, async (req: ExtendRequest, res) => {
+  try {
+    const storage = multer.diskStorage({
+      destination: function (req, file, cb) {
+        cb(null, "public/images");
+      },
+       filename: function (req, file, cb) {
+        const extendedReq = req as ExtendRequest;
+        if (!extendedReq.user || !extendedReq.user._id) {
+          return cb(new Error("User not found in request"), "");
+        }
+
+        cb(null, `${extendedReq.user._id}`);
+      },
+    });
+
+    const upload = multer({ storage: storage }).single("");
+    upload(req, res, async (err) => {
+      if (err) {
+        res.status(500).json("something went wrong !");
+      } else {
+        res.status(200).send(req.user._id);
+      }
+    });
+  } catch {
+    res.status(500).json("something went wrong !");
+  }
 });
 export default router;
