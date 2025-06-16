@@ -55,6 +55,7 @@ export const addorEditPost = async ({
     experience,
     education,
     social,
+    status,
   };
 
   const userProfile = await profileModel.findOneAndUpdate(

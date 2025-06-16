@@ -102,7 +102,7 @@ router.post("upload", validateJWT, async (req: ExtendRequest, res) => {
       destination: function (req, file, cb) {
         cb(null, "public/images");
       },
-       filename: function (req, file, cb) {
+      filename: function (req, file, cb) {
         const extendedReq = req as ExtendRequest;
         if (!extendedReq.user || !extendedReq.user._id) {
           return cb(new Error("User not found in request"), "");
@@ -124,4 +124,42 @@ router.post("upload", validateJWT, async (req: ExtendRequest, res) => {
     res.status(500).json("something went wrong !");
   }
 });
+
+router.put("/experience", validateJWT, async (req: ExtendRequest, res) => {
+  try {
+    if (!req.body.title) {
+      res.status(401).json("Title is required");
+      return;
+    }
+    if (!req.body.company) {
+      res.status(401).json("Company is required");
+      return;
+    }
+    if (!req.body.from) {
+      res.status(401).json("From date is required and needs to be from past");
+      return;
+    }
+
+    if (req.body.to) {
+      const isNotValid = req.body.to < req.body.from;
+      if (isNotValid) {
+        res.status(401).json("Invalid date !");
+        return;
+      }
+    }
+
+    const profile = await profileModel.findOne({ userId: req.user._id });
+    if (!profile) {
+      res.status(404).json("Profile not found");
+      return;
+    }
+    profile.experience.unshift(req.body);
+    await profile.save();
+    res.status(200).json(profile);
+  } catch(err) {
+    console.log(err);
+    res.status(500).json("something went wrong !");
+  }
+});
+
 export default router;
