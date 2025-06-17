@@ -38,7 +38,7 @@ interface IProfile extends Document {
   country: string;
   location: string;
   status: string;
-  skills: [string];
+  skills: string[];
   bio: string;
   experience: IExperience[];
   education: IEducation[];
