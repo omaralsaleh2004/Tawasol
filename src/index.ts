@@ -4,6 +4,7 @@ import userRoute from "./routes/userRoute";
 import dotenv from "dotenv";
 import cors from "cors";
 import profileRoute from "./routes/profileRoute";
+import postRoute from "./routes/postRoute";
 
 dotenv.config();
 const app = express();
@@ -18,6 +19,7 @@ mongoose
 
 app.use("/user", userRoute);
 app.use("/profile", profileRoute);
+app.use("/post", postRoute);
 app.listen(port, () => {
   console.log(`server is running at : http://localhost:${port}`);
 });
