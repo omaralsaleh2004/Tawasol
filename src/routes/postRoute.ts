@@ -47,8 +47,59 @@ router.get("/:id", validateJWT, async (req: ExtendRequest, res) => {
 
     if (!post) {
       res.status(404).json("Post not Found");
+      return;
     }
     res.status(200).json(post);
+  } catch {
+    res.status(500).json("something went wrong !");
+  }
+});
+
+router.put("/like/:id", validateJWT, async (req: ExtendRequest, res) => {
+  try {
+    const post = await postModel.findById(req.params.id);
+
+    if (!post) {
+      res.status(404).json("Post not Found");
+      return;
+    }
+
+    for (let i in post.likes) {
+      if (post.likes[i].userId.toString() === req.user._id.toString()) {
+        res.status(401).json("Post already liked");
+        return;
+      }
+    }
+
+    post.likes.unshift({ userId: req.user._id });
+    await post.save();
+    res.status(200).json(post.likes);
+  } catch {
+    res.status(500).json("something went wrong !");
+  }
+});
+
+router.put("/unlike/:id", validateJWT, async (req: ExtendRequest, res) => {
+  try {
+    const post = await postModel.findById(req.params.id);
+
+    if (!post) {
+      res.status(404).json("Post not Found");
+      return;
+    }
+
+    for (let i in post.likes) {
+      if (!post.likes[i].userId.toString() === req.user._id.toString()) {
+        res.status(401).json("User has not liked the post previously");
+        return;
+      }
+    }
+
+    post.likes = post.likes.filter(
+      (like) => like.userId.toString() !== req.user._id.toString()
+    );
+    await post.save();
+    res.status(200).json(post.likes);
   } catch {
     res.status(500).json("something went wrong !");
   }
