@@ -26,10 +26,32 @@ router.post("/", validateJWT, async (req: ExtendRequest, res) => {
 
     const post = await newPost.save();
 
-    res.status(200).send(post);
-  } catch (err) {
-    console.log(err);
+    res.status(200).json(post);
+  } catch {
     res.status(500).json("something went wrong !");
   }
 });
+
+router.get("/", validateJWT, async (req: ExtendRequest, res) => {
+  try {
+    const posts = await postModel.find().sort({ date: -1 });
+    res.status(200).json(posts);
+  } catch {
+    res.status(500).json("something went wrong !");
+  }
+});
+
+router.get("/:id", validateJWT, async (req: ExtendRequest, res) => {
+  try {
+    const post = await postModel.findById(req.params.id);
+
+    if (!post) {
+      res.status(404).json("Post not Found");
+    }
+    res.status(200).json(post);
+  } catch {
+    res.status(500).json("something went wrong !");
+  }
+});
+
 export default router;
