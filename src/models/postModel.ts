@@ -5,6 +5,7 @@ export interface ILiks {
 }
 
 export interface IComments {
+  _id?: ObjectId | string;
   userId: string | ObjectId;
   text: string;
   name: string;
