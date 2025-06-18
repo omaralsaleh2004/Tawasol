@@ -5,6 +5,7 @@ import { addorEditPost } from "../services/profileService";
 import { profileModel } from "../models/profileModel";
 import { userModel } from "../models/userModel";
 import multer from "multer";
+import { postModel } from "../models/postModel";
 
 const router = express.Router();
 
@@ -90,10 +91,13 @@ router.get("/:user_id", validateJWT, async (req: ExtendRequest, res) => {
 });
 
 router.delete("/", validateJWT, async (req: ExtendRequest, res) => {
-  //delete post , profile , user
-  //TODO : Include deleting posts
-  await profileModel.findOneAndDelete({ userId: req.user._id });
-  await userModel.findByIdAndDelete({ _id: req.user._id });
+  await Promise.all([
+    postModel.deleteMany({ userId: req.user._id }),
+    profileModel.findOneAndDelete({ userId: req.user._id }),
+    userModel.findByIdAndDelete({ _id: req.user._id }),
+  ]);
+
+  res.status(200).json("User information is deleted succesfully");
 });
 
 router.post("upload", validateJWT, async (req: ExtendRequest, res) => {

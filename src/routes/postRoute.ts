@@ -178,4 +178,25 @@ router.delete(
   }
 );
 
+router.delete("/:id", validateJWT, async (req: ExtendRequest, res) => {
+  try {
+    const post = await postModel.findById(req.params.id);
+
+    if (!post) {
+      res.status(404).json("Post not found");
+      return;
+    }
+
+    if (post.userId.toString() !== req.user.id) {
+      res.status(401).json(" User is not authorized to remove this post");
+      return;
+    }
+
+    await postModel.deleteOne({ _id: req.params.id });
+    res.status(200).json("Post is removed");
+  } catch {
+    res.status(500).json("something went wrong !");
+  }
+});
+
 export default router;
