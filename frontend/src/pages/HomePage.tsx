@@ -8,7 +8,7 @@ export default function HomePage() {
   };
 
   const handleSignup = () => {
-    navigate("/signup");
+    navigate("/register");
   };
 
   return (
