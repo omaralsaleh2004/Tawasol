@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+}
+
+.Landing-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-image: url("./assests/landing.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.Landing-page h1 {
+  font-size: 60px;
+  background-color: white;
+  padding: 8px;
+  border-radius: 10px;
+}
+.Landing-page-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.Landing-page-btn button {
+  font-size: 20px;
+  width: 100px;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  background-color: #214cb0;
+  color: white;
+}
+
+.Landing-page-btn button:hover {
+  cursor: pointer;
+  background-color: #313de0;
+}
