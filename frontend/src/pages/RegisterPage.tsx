@@ -3,6 +3,8 @@ import { useRef, useState } from "react";
 
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../constants/BaseUrl";
+import { useAuth } from "../context/Auth/AuthContext";
+
 const RegisterPage = () => {
   const [error, setError] = useState("");
   const firstNameRef = useRef<HTMLInputElement>(null);
@@ -10,11 +12,18 @@ const RegisterPage = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
+  const { login } = useAuth();
+
   const onSubmit = async () => {
     const firstName = firstNameRef.current?.value;
     const lastName = lastNameRef.current?.value;
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
+
+    if (!firstName || !lastName || !email || !password) {
+      setError("Check submitted data");
+      return;
+    }
 
     console.log(firstName, lastName, email, password);
     // Make the call to API  to create user
@@ -30,13 +39,14 @@ const RegisterPage = () => {
         password,
       }),
     });
-    const data = await response.json();
+    const token = await response.json();
     if (!response.ok) {
-      setError(data);
+      setError(token);
       return;
     }
     setError("");
-    console.log(data);
+    login(email, token);
+    console.log(token);
   };
 
   return (

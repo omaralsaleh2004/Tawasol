@@ -3,8 +3,10 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/Auth/AuthContext";
 
 export default function Navbar() {
+  const { username, token } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -14,6 +16,8 @@ export default function Navbar() {
   const handleHomePage = () => {
     navigate("/");
   };
+
+  console.log("from navbar", { username, token });
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
