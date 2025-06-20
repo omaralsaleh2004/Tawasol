@@ -1,7 +1,7 @@
 import { Container, Box, Typography, TextField, Button } from "@mui/material";
 import { useRef, useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../constants/BaseUrl";
 import { useAuth } from "../context/Auth/AuthContext";
 
@@ -11,6 +11,7 @@ const LoginPage = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const onSubmit = async () => {
     const email = emailRef.current?.value;
@@ -40,6 +41,7 @@ const LoginPage = () => {
     }
     setError("");
     login(email, token);
+    navigate("/home");
     console.log(token);
   };
 
