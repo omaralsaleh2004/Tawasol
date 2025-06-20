@@ -5,7 +5,7 @@ import MenuBar from "../pages/MenuBar";
 const ProtectedRoute = () => {
   const { isAuthenticated } = useAuth();
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace={true} />;
+    return <Navigate to="/" replace={true} />;
   }
 
   return (
