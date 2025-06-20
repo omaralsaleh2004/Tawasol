@@ -1,9 +1,14 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/Auth/AuthContext";
 
 export default function LandingPage() {
   const navigate = useNavigate();
-
+  const { isAuthenticated } = useAuth();
   const handleLogin = () => {
+    if (isAuthenticated) {
+      navigate("/home");
+      return;
+    }
     navigate("/login");
   };
 
