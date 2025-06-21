@@ -1,6 +1,6 @@
 import { useState, type FC, type PropsWithChildren } from "react";
 import { ProfileContext } from "./ProfileContext";
-import type { Profile } from "../../types/Profile";
+import type { IaddExperience, Profile } from "../../types/Profile";
 import { useAuth } from "../Auth/AuthContext";
 import { BASE_URL } from "../../constants/BaseUrl";
 
@@ -59,10 +59,45 @@ const ProfileProvider: FC<PropsWithChildren> = ({ children }) => {
       }
 
       const result = await response.json();
-      console.log("from Create Profile", result);
-      setProfile(result);
+      console.log("from experience ", result);
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const addExperience = async ({
+    company,
+    current,
+    from,
+    location,
+    title,
+    to,
+  }: IaddExperience) => {
+    try {
+      const response = await fetch(`${BASE_URL}/profile/experience`, {
+        method: "Put",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          company,
+          current,
+          from,
+          location,
+          title,
+          to,
+        }),
+      });
+      if (!response.ok) {
+        return;
+      }
+
+      const result = await response.json();
+      console.log("from Create Profile", result);
+      setProfile(result);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -72,6 +107,7 @@ const ProfileProvider: FC<PropsWithChildren> = ({ children }) => {
         profile,
         fetchProfile,
         createProfile,
+        addExperience,
       }}
     >
       {children}

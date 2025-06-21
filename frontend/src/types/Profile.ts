@@ -3,10 +3,19 @@ export interface IExperience {
   title: string;
   company: string;
   location: string;
-  from: Date;
-  to: Date;
+  from?: Date | null;
+  to?: Date | null;
   current: boolean;
   description: string;
+}
+
+export interface IaddExperience {
+  title: string;
+  company: string;
+  location: string;
+  from?: Date | null;
+  to?: Date | null;
+  current: boolean;
 }
 
 export interface IEducation {
