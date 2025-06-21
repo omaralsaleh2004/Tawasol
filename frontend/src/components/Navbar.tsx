@@ -7,6 +7,7 @@ import { useAuth } from "../context/Auth/AuthContext";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import defaultImage from "../assests/default.png";
+import { Typography } from "@mui/material";
 export default function Navbar() {
   const { username, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
@@ -44,9 +45,19 @@ export default function Navbar() {
               Tawasol
             </Button>
           ) : (
-            <Stack direction="row" spacing={2}>
-              <Avatar alt="Remy Sharp" src={defaultImage} />
-            </Stack>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "10px",
+              }}
+            >
+              <Stack direction="row" spacing={2}>
+                <Avatar alt="Remy Sharp" src={defaultImage} />
+              </Stack>
+              <Typography>{username}</Typography>
+            </Box>
           )}
           {!isAuthenticated ? (
             <Button

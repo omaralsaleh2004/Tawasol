@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProfileProvider from "./context/Profile/ProfileProvider";
 import { ProfilePage } from "./pages/ProfilePage";
+import ProfileFormPage from "./pages/ProfileForm/ProfileFormPage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               <Route path="/posts" element={<div>Posts Page</div>} />
               <Route path="/developers" element={<div>Developers Page</div>} />
               <Route path="/Settings" element={<div>Settings Page</div>} />
+              <Route path="/create-profile" element={<ProfileFormPage />} />
             </Route>
           </Routes>
         </BrowserRouter>
