@@ -20,12 +20,48 @@ export const ProfilePage = () => {
   return (
     <div>
       {profile ? (
-        <div className="row1">
-          <div className="profile-img-name">
-          <img className="profile-img" alt="Profile Image" src={defaultImage} />
-          <h1>{profile.userId.firstName}</h1>
+        <div>
+          <div className="row1">
+            <div className="profile-img-name">
+              <img
+                className="profile-img"
+                alt="Profile Image"
+                src={defaultImage}
+              />
+              <h1>{profile.userId.firstName}</h1>
+            </div>
+            <BasicInfo />
           </div>
-         <BasicInfo/>
+          <div className="row2">
+            <div className="section">
+              <div className="header">
+                <h3>Education</h3>
+                <button>➕</button>
+              </div>
+              <div className="content-box">
+                <p>🎓 Item 1</p>
+                <p>🎓 Item 2</p>
+                <p>🎓 Item 3</p>
+                {/* Add more to test scrolling */}
+              </div>
+            </div>
+
+            {/* Experience */}
+            <div className="section">
+              <div className="header">
+                <h3>Experience</h3>
+                <button>➕</button>
+              </div>
+              <div className="content-box">
+                <p>💼 Item 1</p>
+                <p>💼 Item 2</p>
+                <p>💼 Item 1</p>
+                <p>💼 Item 2</p>
+                <p>💼 Item 1</p>
+                <p>💼 Item 2</p>
+              </div>
+            </div>
+          </div>
         </div>
       ) : (
         <Box
