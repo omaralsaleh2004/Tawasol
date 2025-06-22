@@ -3,15 +3,15 @@ import { useEffect, useRef, useState } from "react";
 import { useProfile } from "../../context/Profile/ProfileContext";
 import { useNavigate } from "react-router-dom";
 
-const ExperienceForm = () => {
-  const { profile, addExperience, fetchProfile } = useProfile();
+const EducationForm = () => {
+  const { profile, addEducation, fetchProfile } = useProfile();
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
-  const titleRef = useRef<HTMLSelectElement | null>(null);
-  const companyRef = useRef<HTMLInputElement | null>(null);
+  const schoolRef = useRef<HTMLSelectElement | null>(null);
+  const degreeRef = useRef<HTMLInputElement | null>(null);
+  const fieldOfStudyRef = useRef<HTMLInputElement | null>(null);
   const fromRef = useRef<HTMLInputElement | null>(null);
-  const locationRef = useRef<HTMLInputElement | null>(null);
   const currentRef = useRef<HTMLInputElement | null>(null);
   const toRef = useRef<HTMLInputElement | null>(null);
 
@@ -22,10 +22,10 @@ const ExperienceForm = () => {
   }, []);
 
   const handleSubmit = async () => {
-    const title = titleRef.current?.value;
-    const company = companyRef.current?.value;
+    const school = schoolRef.current?.value;
+    const degree = degreeRef.current?.value;
     const from = fromRef.current?.valueAsDate;
-    const location = locationRef.current?.value ?? "";
+    const fieldofstudy = fieldOfStudyRef.current?.value ?? "";
     const current = currentRef.current?.checked ?? false;
     const to = toRef.current?.valueAsDate ?? null;
 
@@ -34,8 +34,8 @@ const ExperienceForm = () => {
       navigate("/create-profile");
       return;
     }
-    if (!title || !company || !from) {
-      setError("Check if you have enterd JobTitle and Company and From Date");
+    if (!school || !degree || !from) {
+      setError("Check if you have enterd School and Degree and From Date");
       return;
     }
 
@@ -45,16 +45,8 @@ const ExperienceForm = () => {
         return;
       }
     }
+    addEducation({ current, degree, fieldofstudy, from, school, to });
     setError("");
-
-    addExperience({
-      title,
-      company,
-      from,
-      location,
-      current,
-      to,
-    });
   };
 
   console.log("Profile ++++ ", profile);
@@ -69,7 +61,7 @@ const ExperienceForm = () => {
           mt: 3,
         }}
       >
-        <Typography variant="h5">Add Experience</Typography>
+        <Typography variant="h5">Add Education</Typography>
         <Box
           sx={{
             minWidth: "35%",
@@ -82,13 +74,13 @@ const ExperienceForm = () => {
             borderColor: "#f5f5f5",
           }}
         >
-          <TextField label="Job Title" name="title" inputRef={titleRef} />
-          <TextField label="Company" name="company" inputRef={companyRef} />
-          <TextField label="Loacation" name="location" inputRef={locationRef} />
+          <TextField label="School" name="school" inputRef={schoolRef} />
+          <TextField label="Degree" name="degree" inputRef={degreeRef} />
+          <TextField label="Field of Study" name="fieldofstudy" inputRef={fieldOfStudyRef} />
           <TextField type="date" name="from" inputRef={fromRef} />
           <TextField
             type="checkbox"
-            label="Current Job"
+            label="Current School"
             name="current"
             inputRef={currentRef}
           />
@@ -121,4 +113,4 @@ const ExperienceForm = () => {
   );
 };
 
-export default ExperienceForm;
+export default EducationForm;

@@ -1,5 +1,9 @@
 import { createContext, useContext } from "react";
-import type { IaddExperience, Profile } from "../../types/Profile";
+import type {
+  IaddEducation,
+  IaddExperience,
+  Profile,
+} from "../../types/Profile";
 
 interface ProfileContextType {
   profile: Profile | null;
@@ -21,6 +25,15 @@ interface ProfileContextType {
     title,
     to,
   }: IaddExperience) => void;
+
+  addEducation: ({
+    current,
+    degree,
+    fieldofstudy,
+    from,
+    school,
+    to,
+  }: IaddEducation) => void;
 }
 
 export const ProfileContext = createContext<ProfileContextType>({
@@ -28,6 +41,7 @@ export const ProfileContext = createContext<ProfileContextType>({
   fetchProfile: () => {},
   createProfile: () => {},
   addExperience: () => {},
+  addEducation: () => {},
 });
 
 export const useProfile = () => useContext(ProfileContext);

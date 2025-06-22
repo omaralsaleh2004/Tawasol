@@ -13,7 +13,16 @@ export interface IaddExperience {
   title: string;
   company: string;
   location: string;
-  from?: Date | null;
+  from: Date;
+  to?: Date | null;
+  current: boolean;
+}
+
+export interface IaddEducation {
+  school: string;
+  degree: string;
+  fieldofstudy: string;
+  from: Date;
   to?: Date | null;
   current: boolean;
 }

@@ -9,6 +9,7 @@ import ProfileProvider from "./context/Profile/ProfileProvider";
 import { ProfilePage } from "./pages/ProfilePage";
 import ProfileFormPage from "./pages/ProfileForm/ProfileFormPage";
 import ExperienceForm from "./pages/ProfileForm/ExperienceFrom";
+import EducationForm from "./pages/ProfileForm/EducationForm";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <Route path="/Settings" element={<div>Settings Page</div>} />
               <Route path="/create-profile" element={<ProfileFormPage />} />
               <Route path="/experience" element={<ExperienceForm />} />
+              <Route path="/education" element={<EducationForm />} />
             </Route>
           </Routes>
         </BrowserRouter>

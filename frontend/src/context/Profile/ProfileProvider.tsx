@@ -1,6 +1,10 @@
 import { useState, type FC, type PropsWithChildren } from "react";
 import { ProfileContext } from "./ProfileContext";
-import type { IaddExperience, Profile } from "../../types/Profile";
+import type {
+  IaddEducation,
+  IaddExperience,
+  Profile,
+} from "../../types/Profile";
 import { useAuth } from "../Auth/AuthContext";
 import { BASE_URL } from "../../constants/BaseUrl";
 
@@ -101,6 +105,43 @@ const ProfileProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const addEducation = async ({
+    current,
+    degree,
+    fieldofstudy,
+    from,
+    school,
+    to,
+  }: IaddEducation) => {
+    try {
+      const response = await fetch(`${BASE_URL}/profile/education`, {
+        method: "Put",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          school,
+          current,
+          from,
+          degree,
+          fieldofstudy,
+          to,
+        }),
+      });
+      if (!response.ok) {
+        return;
+      }
+
+      const result = await response.json();
+      console.log("from education Profile", result);
+      setProfile(result);
+      console.log("from education set", profile);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <ProfileContext.Provider
       value={{
@@ -108,6 +149,7 @@ const ProfileProvider: FC<PropsWithChildren> = ({ children }) => {
         fetchProfile,
         createProfile,
         addExperience,
+        addEducation,
       }}
     >
       {children}
