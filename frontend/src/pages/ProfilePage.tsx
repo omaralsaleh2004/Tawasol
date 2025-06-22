@@ -2,7 +2,8 @@ import { Box, Button, Typography } from "@mui/material";
 import { useProfile } from "../context/Profile/ProfileContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import defaultImage from "../assests/default.png";
+import BasicInfo from "../components/BasicInfo";
 export const ProfilePage = () => {
   const { profile, fetchProfile } = useProfile();
   const navigate = useNavigate();
@@ -19,7 +20,13 @@ export const ProfilePage = () => {
   return (
     <div>
       {profile ? (
-        <Button variant="contained">Edit Profile </Button>
+        <div className="row1">
+          <div className="profile-img-name">
+          <img className="profile-img" alt="Profile Image" src={defaultImage} />
+          <h1>{profile.userId.firstName}</h1>
+          </div>
+         <BasicInfo/>
+        </div>
       ) : (
         <Box
           sx={{

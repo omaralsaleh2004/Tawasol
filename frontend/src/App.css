@@ -41,3 +41,40 @@ body {
   cursor: pointer;
   background-color: #313de0;
 }
+.row1 {
+  height: 50vh;
+  padding-top: 30px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.profile-img {
+  border: 1px solid white;
+  border-radius: 10px;
+  width: 350px;
+  height: 350px;
+}
+
+.profile-img-name {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.container {
+  background-color: var(--light-color);
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px 0;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 1);
+  background-color: #e4e8f0;
+}
+
+.container p {
+  padding: 0 20px 0 20px;
+}
+
+.container .skills {
+  height: 140px;
+  overflow: auto;
+}
