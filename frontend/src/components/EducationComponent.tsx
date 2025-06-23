@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "../context/Profile/ProfileContext";
 import { formatDate } from "../utils";
-
+import { Delete } from "@mui/icons-material";
+import { Button } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 const EducationComponent = () => {
   const { profile, deleteEducation } = useProfile();
   const navigate = useNavigate();
@@ -13,7 +15,9 @@ const EducationComponent = () => {
     <div className="section">
       <div className="header">
         <h3>Education</h3>
-        <button onClick={handleAddEducation}>➕</button>
+        <Button onClick={handleAddEducation}>
+          <AddIcon />
+        </Button>
       </div>
       <div className="content-box">
         {profile?.education.map((e) => (
@@ -34,12 +38,9 @@ const EducationComponent = () => {
               </small>
             </div>
             {deleteEducation !== undefined ? (
-              <button
-                className="del-btn"
-                onClick={() => deleteEducation(e._id)}
-              >
-                x
-              </button>
+              <Button onClick={() => deleteEducation(e._id)}>
+                <Delete />
+              </Button>
             ) : null}
           </div>
         ))}

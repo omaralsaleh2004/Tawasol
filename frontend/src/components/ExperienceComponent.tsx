@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "../context/Profile/ProfileContext";
 import { formatDate } from "../utils";
-
+import { Button } from "@mui/material";
+import { Delete } from "@mui/icons-material";
+import AddIcon from "@mui/icons-material/Add";
 const ExperienceComponent = () => {
   const { profile, deleteExperience } = useProfile();
   const navigate = useNavigate();
@@ -14,7 +16,9 @@ const ExperienceComponent = () => {
     <div className="section">
       <div className="header">
         <h3>Experience</h3>
-        <button onClick={handleAddExperience}>➕</button>
+        <Button onClick={handleAddExperience}>
+          <AddIcon />
+        </Button>
       </div>
       <div className="content-box">
         {profile?.experience.map((e) => (
@@ -31,12 +35,9 @@ const ExperienceComponent = () => {
               </small>
             </div>
             {deleteExperience !== undefined ? (
-              <button
-                className="del-btn"
-                onClick={() => deleteExperience(e._id)}
-              >
-                x
-              </button>
+              <Button onClick={() => deleteExperience(e._id)}>
+                <Delete />
+              </Button>
             ) : null}
           </div>
         ))}
