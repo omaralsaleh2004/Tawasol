@@ -61,3 +61,12 @@ export interface Profile {
   social: ISocial[];
   date: Date;
 }
+
+export interface User {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  date: Date;
+}

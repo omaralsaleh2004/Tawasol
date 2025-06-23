@@ -7,7 +7,9 @@ import type {
 
 interface ProfileContextType {
   profile: Profile | null;
+  profiles: Profile[];
   fetchProfile: () => void;
+  fetchAllProfile: () => void;
   createProfile: (
     company: string,
     website: string,
@@ -40,7 +42,9 @@ interface ProfileContextType {
 
 export const ProfileContext = createContext<ProfileContextType>({
   profile: null,
+  profiles: [],
   fetchProfile: () => {},
+  fetchAllProfile: () => {},
   createProfile: () => {},
   addExperience: () => {},
   addEducation: () => {},

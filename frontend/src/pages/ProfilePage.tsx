@@ -6,8 +6,10 @@ import defaultImage from "../assests/default.png";
 import BasicInfo from "../components/BasicInfo";
 import ExperienceComponent from "../components/ExperienceComponent";
 import EducationComponent from "../components/EducationComponent";
+import { useUser } from "../context/User/UserContext";
 export const ProfilePage = () => {
   const { profile, fetchProfile } = useProfile();
+  const { getUser } = useUser();
   const navigate = useNavigate();
 
   const handleCreateProfile = () => {
@@ -16,6 +18,7 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     fetchProfile();
+    getUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   console.log(profile);

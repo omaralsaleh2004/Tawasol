@@ -11,6 +11,7 @@ import { BASE_URL } from "../../constants/BaseUrl";
 const ProfileProvider: FC<PropsWithChildren> = ({ children }) => {
   const { token } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [profiles, setProfiles] = useState<Profile[]>([]);
 
   const fetchProfile = async () => {
     try {
@@ -27,6 +28,26 @@ const ProfileProvider: FC<PropsWithChildren> = ({ children }) => {
       const userProfile = await response.json();
       console.log("from respoonse.ok", userProfile);
       setProfile(userProfile);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchAllProfile = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        setProfiles([]);
+        return;
+      }
+
+      const Profiles = await response.json();
+      console.log("from Profiles ", Profiles);
+      setProfiles(Profiles);
     } catch (error) {
       console.error(error);
     }
@@ -201,7 +222,9 @@ const ProfileProvider: FC<PropsWithChildren> = ({ children }) => {
     <ProfileContext.Provider
       value={{
         profile,
+        profiles,
         fetchProfile,
+        fetchAllProfile,
         createProfile,
         addExperience,
         addEducation,
