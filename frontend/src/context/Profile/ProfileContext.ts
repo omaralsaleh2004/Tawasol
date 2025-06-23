@@ -34,6 +34,7 @@ interface ProfileContextType {
     school,
     to,
   }: IaddEducation) => void;
+  deleteEducation: (id: string) => void;
 }
 
 export const ProfileContext = createContext<ProfileContextType>({
@@ -42,6 +43,7 @@ export const ProfileContext = createContext<ProfileContextType>({
   createProfile: () => {},
   addExperience: () => {},
   addEducation: () => {},
+  deleteEducation: () => {},
 });
 
 export const useProfile = () => useContext(ProfileContext);

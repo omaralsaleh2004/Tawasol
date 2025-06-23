@@ -21,6 +21,10 @@ const EducationForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleBack = () => {
+    navigate("/home");
+  };
+
   const handleSubmit = async () => {
     const school = schoolRef.current?.value;
     const degree = degreeRef.current?.value;
@@ -46,6 +50,7 @@ const EducationForm = () => {
       }
     }
     addEducation({ current, degree, fieldofstudy, from, school, to });
+    navigate("/home");
     setError("");
   };
 
@@ -76,7 +81,11 @@ const EducationForm = () => {
         >
           <TextField label="School" name="school" inputRef={schoolRef} />
           <TextField label="Degree" name="degree" inputRef={degreeRef} />
-          <TextField label="Field of Study" name="fieldofstudy" inputRef={fieldOfStudyRef} />
+          <TextField
+            label="Field of Study"
+            name="fieldofstudy"
+            inputRef={fieldOfStudyRef}
+          />
           <TextField type="date" name="from" inputRef={fromRef} />
           <TextField
             type="checkbox"
@@ -94,13 +103,23 @@ const EducationForm = () => {
               pt: 6,
             }}
           >
-            <Button
-              onClick={handleSubmit}
-              variant="contained"
-              style={{ width: "100%" }}
-            >
-              Submit
-            </Button>
+            {" "}
+            <Box sx={{ display: "flex", alignItems: "center", gap: "80px" }}>
+              <Button
+                style={{ width: "50%" }}
+                onClick={handleSubmit}
+                variant="contained"
+              >
+                Submit
+              </Button>
+              <Button
+                style={{ width: "50%" }}
+                onClick={handleBack}
+                variant="contained"
+              >
+                Back
+              </Button>
+            </Box>
             {error ? (
               <Typography sx={{ color: "red" }}>{error}</Typography>
             ) : (

@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import defaultImage from "../assests/default.png";
 import BasicInfo from "../components/BasicInfo";
+import ExperienceComponent from "../components/ExperienceComponent";
+import EducationComponent from "../components/EducationComponent";
 export const ProfilePage = () => {
   const { profile, fetchProfile } = useProfile();
   const navigate = useNavigate();
@@ -33,34 +35,8 @@ export const ProfilePage = () => {
             <BasicInfo />
           </div>
           <div className="row2">
-            <div className="section">
-              <div className="header">
-                <h3>Education</h3>
-                <button>➕</button>
-              </div>
-              <div className="content-box">
-                <p>🎓 Item 1</p>
-                <p>🎓 Item 2</p>
-                <p>🎓 Item 3</p>
-                {/* Add more to test scrolling */}
-              </div>
-            </div>
-
-            {/* Experience */}
-            <div className="section">
-              <div className="header">
-                <h3>Experience</h3>
-                <button>➕</button>
-              </div>
-              <div className="content-box">
-                <p>💼 Item 1</p>
-                <p>💼 Item 2</p>
-                <p>💼 Item 1</p>
-                <p>💼 Item 2</p>
-                <p>💼 Item 1</p>
-                <p>💼 Item 2</p>
-              </div>
-            </div>
+            <EducationComponent />
+            <ExperienceComponent />
           </div>
         </div>
       ) : (

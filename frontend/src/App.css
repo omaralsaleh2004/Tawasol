@@ -131,7 +131,6 @@ body {
 .section {
   flex: 1;
   max-width: 48%;
-  background-color: #e4e8f0;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -148,4 +147,25 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2px;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid white;
+  padding: 5px;
+  background-color: #e4e8f0;
+  border-radius: 10px;
+}
+
+.content p {
+  overflow-y: auto;
+  max-width: 345px;
+}
+
+.content-date {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
 }

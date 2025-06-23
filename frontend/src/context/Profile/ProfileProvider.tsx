@@ -142,6 +142,27 @@ const ProfileProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const deleteEducation = async (id: string) => {
+    try {
+      const response = await fetch(`${BASE_URL}/profile/education/${id}`, {
+        method: "Delete",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        return;
+      }
+      const result = await response.json();
+      console.log("from delete", result);
+      setProfile(result);
+      console.log("from from delete", profile);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <ProfileContext.Provider
       value={{
@@ -150,6 +171,7 @@ const ProfileProvider: FC<PropsWithChildren> = ({ children }) => {
         createProfile,
         addExperience,
         addEducation,
+        deleteEducation,
       }}
     >
       {children}
