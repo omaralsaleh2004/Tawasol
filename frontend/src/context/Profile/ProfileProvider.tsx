@@ -53,6 +53,26 @@ const ProfileProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const fetchProfileById = async (id: string) => {
+    try {
+      const response = await fetch(`${BASE_URL}/profile/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        setProfile(null);
+        return;
+      }
+
+      const Profile = await response.json();
+      console.log("from Profile by id ", Profile);
+      setProfile(Profile);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const createProfile = async (
     company: string,
     website: string,
@@ -225,6 +245,7 @@ const ProfileProvider: FC<PropsWithChildren> = ({ children }) => {
         profiles,
         fetchProfile,
         fetchAllProfile,
+        fetchProfileById,
         createProfile,
         addExperience,
         addEducation,

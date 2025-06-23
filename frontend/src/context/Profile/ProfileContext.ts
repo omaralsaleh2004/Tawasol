@@ -10,6 +10,7 @@ interface ProfileContextType {
   profiles: Profile[];
   fetchProfile: () => void;
   fetchAllProfile: () => void;
+  fetchProfileById: (id: string) => void;
   createProfile: (
     company: string,
     website: string,
@@ -45,6 +46,7 @@ export const ProfileContext = createContext<ProfileContextType>({
   profiles: [],
   fetchProfile: () => {},
   fetchAllProfile: () => {},
+  fetchProfileById() {},
   createProfile: () => {},
   addExperience: () => {},
   addEducation: () => {},

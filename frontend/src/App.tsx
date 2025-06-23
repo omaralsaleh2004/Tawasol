@@ -12,6 +12,7 @@ import ExperienceForm from "./pages/ProfileForm/ExperienceFrom";
 import EducationForm from "./pages/ProfileForm/EducationForm";
 import UserProvider from "./context/User/UserProvider";
 import DeveloperPage from "./pages/DevelopePage";
+import { DeveloperProfilePage } from "./pages/DeveloperProfilePage";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
                 <Route path="/developers" element={<DeveloperPage />} />
                 <Route path="/Settings" element={<div>Settings Page</div>} />
                 <Route path="/create-profile" element={<ProfileFormPage />} />
+                <Route path="/dev-profile" element={<DeveloperProfilePage />} />
                 <Route path="/experience" element={<ExperienceForm />} />
                 <Route path="/education" element={<EducationForm />} />
               </Route>

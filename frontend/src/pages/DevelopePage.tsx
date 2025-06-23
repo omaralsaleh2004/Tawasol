@@ -10,12 +10,20 @@ import defaultImage from "../assests/default.png";
 import { useProfile } from "../context/Profile/ProfileContext";
 import { useUser } from "../context/User/UserContext";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const DeveloperPage = () => {
-  const { profiles, fetchAllProfile } = useProfile();
+  const { profiles, fetchAllProfile, fetchProfileById } = useProfile();
   const { user } = useUser();
+  const navigate = useNavigate();
+  const handleFetchProfile = (id: string) => {
+    fetchProfileById(id);
+    navigate("/dev-profile");
+  };
+
   useEffect(() => {
     fetchAllProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   console.log(profiles);
   return (
@@ -32,7 +40,10 @@ const DeveloperPage = () => {
       {profiles
         .filter((profile) => profile.userId._id !== user?._id)
         .map((profile) => (
-          <Card sx={{ minWidth: 260 }}>
+          <Card
+            sx={{ minWidth: 260 }}
+            onClick={() => handleFetchProfile(profile.userId._id)}
+          >
             <CardActionArea>
               <CardMedia
                 component="img"
