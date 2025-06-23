@@ -55,6 +55,11 @@ const ExperienceForm = () => {
       current,
       to,
     });
+    navigate("/home");
+  };
+
+  const handleBack = () => {
+    navigate("/home");
   };
 
   console.log("Profile ++++ ", profile);
@@ -102,13 +107,22 @@ const ExperienceForm = () => {
               pt: 6,
             }}
           >
-            <Button
-              onClick={handleSubmit}
-              variant="contained"
-              style={{ width: "100%" }}
-            >
-              Submit
-            </Button>
+            <Box sx={{ display: "flex", alignItems: "center", gap: "80px" }}>
+              <Button
+                style={{ width: "50%" }}
+                onClick={handleSubmit}
+                variant="contained"
+              >
+                Submit
+              </Button>
+              <Button
+                style={{ width: "50%" }}
+                onClick={handleBack}
+                variant="contained"
+              >
+                Back
+              </Button>
+            </Box>
             {error ? (
               <Typography sx={{ color: "red" }}>{error}</Typography>
             ) : (

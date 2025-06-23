@@ -3,8 +3,8 @@ export interface IExperience {
   title: string;
   company: string;
   location: string;
-  from?: Date | null;
-  to?: Date | null;
+  from: Date;
+  to: Date;
   current: boolean;
   description: string;
 }
