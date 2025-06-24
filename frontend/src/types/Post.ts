@@ -1,9 +1,9 @@
-export interface ILiks {
+export interface ILike {
   userId: string;
   _id: string;
 }
 
-export interface IComments {
+export interface IComment {
   _id: string;
   userId: string;
   text: string;
@@ -15,7 +15,7 @@ export interface IPost {
   userId: string;
   text: string;
   name: string;
-  likes: ILiks[];
-  comments: IComments[];
+  likes: ILike[];
+  comments: IComment[];
   date: Date;
 }

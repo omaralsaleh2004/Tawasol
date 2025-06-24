@@ -1,15 +1,20 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "../context/Profile/ProfileContext";
+import { useEffect } from "react";
+import { useUser } from "../context/User/UserContext";
 
 const SettingsPage = () => {
   const navigate = useNavigate();
   const { deleteAccount } = useProfile();
-
+  const { getUser } = useUser();
   const handleEdit = () => {
     navigate("/create-profile");
   };
-
+  useEffect(() => {
+    getUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Container
       sx={{

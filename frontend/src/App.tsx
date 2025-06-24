@@ -14,6 +14,7 @@ import UserProvider from "./context/User/UserProvider";
 import DeveloperPage from "./pages/DevelopePage";
 import { DeveloperProfilePage } from "./pages/DeveloperProfilePage";
 import SettingsPage from "./pages/SettingsPage";
+import PostPage from "./pages/Post/PostPage";
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route element={<ProtectedRoute />}>
                 <Route path="/home" element={<ProfilePage />} />
-                <Route path="/posts" element={<div>Posts Page</div>} />
+                <Route path="/posts" element={<PostPage />} />
                 <Route path="/developers" element={<DeveloperPage />} />
                 <Route path="/Settings" element={<SettingsPage />} />
                 <Route path="/create-profile" element={<ProfileFormPage />} />

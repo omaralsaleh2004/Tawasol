@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 const DeveloperPage = () => {
   const { profiles, fetchAllProfile, fetchProfileById } = useProfile();
-  const { user } = useUser();
+  const { user, getUser } = useUser();
   const navigate = useNavigate();
   const handleFetchProfile = (id: string) => {
     fetchProfileById(id);
@@ -23,6 +23,7 @@ const DeveloperPage = () => {
 
   useEffect(() => {
     fetchAllProfile();
+    getUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   console.log(profiles);

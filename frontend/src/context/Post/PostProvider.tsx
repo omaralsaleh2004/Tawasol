@@ -11,21 +11,27 @@ const PostProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const fetchPosts = async () => {
     try {
+      console.log("Before fetch call");
       const response = await fetch(`${BASE_URL}/post`, {
+        method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      console.log("After fetch call");
+
       if (!response.ok) {
+        console.log("Error fetching posts:", response.status);
         setPosts([]);
         return;
       }
 
-      const Posts = await response.json();
-      console.log("from Posts ", Posts);
-      setPosts(Posts);
+      const posts = await response.json();
+      console.log("Fetched posts:", posts);
+      setPosts(posts);
     } catch (error) {
-      console.error(error);
+      console.error("FetchPosts exception:", error);
     }
   };
 
