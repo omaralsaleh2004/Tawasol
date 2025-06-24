@@ -8,8 +8,10 @@ import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import defaultImage from "../assests/default.png";
 import { Typography } from "@mui/material";
+import { useUser } from "../context/User/UserContext";
 export default function Navbar() {
-  const { username, isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
+  const { user } = useUser();
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -25,7 +27,8 @@ export default function Navbar() {
     navigate("/");
   };
 
-  console.log("from navbar ", { username, isAuthenticated });
+  console.log("from navbar ", isAuthenticated);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -56,7 +59,9 @@ export default function Navbar() {
               <Stack direction="row" spacing={2}>
                 <Avatar alt="Remy Sharp" src={defaultImage} />
               </Stack>
-              <Typography>{username}</Typography>
+              <Typography>
+                {user?.firstName} {user?.lastName}
+              </Typography>
             </Box>
           )}
           {!isAuthenticated ? (

@@ -1,8 +1,10 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useProfile } from "../context/Profile/ProfileContext";
 
 const SettingsPage = () => {
   const navigate = useNavigate();
+  const { deleteAccount } = useProfile();
 
   const handleEdit = () => {
     navigate("/create-profile");
@@ -60,7 +62,9 @@ const SettingsPage = () => {
           This will completely delete your account and remove you data from
           TawaSol
         </Typography>
-        <Button variant="contained">Delete Account</Button>
+        <Button variant="contained" onClick={deleteAccount}>
+          Delete Account
+        </Button>
       </Box>
     </Container>
   );

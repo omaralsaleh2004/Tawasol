@@ -9,7 +9,7 @@ import { useAuth } from "../Auth/AuthContext";
 import { BASE_URL } from "../../constants/BaseUrl";
 
 const ProfileProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { token } = useAuth();
+  const { token, logout } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [profiles, setProfiles] = useState<Profile[]>([]);
 
@@ -238,6 +238,32 @@ const ProfileProvider: FC<PropsWithChildren> = ({ children }) => {
       console.error(err);
     }
   };
+
+  const deleteAccount = async () => {
+    if (window.confirm("Are you sure? This can NOT be undone!")) {
+      try {
+        const response = await fetch(`${BASE_URL}/profile`, {
+          method: "Delete",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          const error = await response.text();
+          console.error("Failed to delete account:", error);
+          return;
+        }
+        const result = await response.json();
+        console.log("result", result);
+        console.log("from from delete User", profile);
+        logout();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
   return (
     <ProfileContext.Provider
       value={{
@@ -251,6 +277,7 @@ const ProfileProvider: FC<PropsWithChildren> = ({ children }) => {
         addEducation,
         deleteEducation,
         deleteExperience,
+        deleteAccount,
       }}
     >
       {children}
