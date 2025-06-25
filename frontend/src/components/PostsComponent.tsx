@@ -1,4 +1,4 @@
-import { Forum, ThumbDown, ThumbUp } from "@mui/icons-material";
+import { Delete, Forum, ThumbDown, ThumbUp } from "@mui/icons-material";
 import defaultImage from "../assests/default.png";
 import {
   Avatar,
@@ -17,11 +17,12 @@ import { formatDate } from "../utils";
 
 const PostsComponent = () => {
   const { fetchAllPosts, posts } = usePost();
-  const { getUser } = useUser();
+  const { user, getUser } = useUser();
 
   useEffect(() => {
     getUser();
     fetchAllPosts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   console.log(posts);
   return (
@@ -81,6 +82,20 @@ const PostsComponent = () => {
                       Discussion
                     </Button>
                   </Badge>
+                  {post.userId === user?._id ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      sx={{
+                        width: "10px",
+                        textTransform: "none",
+                        whiteSpace: "nowrap",
+                        marginLeft :"6px"
+                      }}
+                    >
+                      <Delete />
+                    </Button>
+                  ) : null}
                 </Box>
               </Box>
             </Box>
