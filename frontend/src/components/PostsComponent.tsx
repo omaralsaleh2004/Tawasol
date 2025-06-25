@@ -16,7 +16,7 @@ import { usePost } from "../context/Posts/PostContext";
 import { formatDate } from "../utils";
 
 const PostsComponent = () => {
-  const { fetchAllPosts, posts, addLike, removeLike } = usePost();
+  const { fetchAllPosts, posts, addLike, removeLike, deletePost } = usePost();
   const { user, getUser } = useUser();
   const handleAddLike = (postId: string) => {
     addLike(postId);
@@ -88,6 +88,7 @@ const PostsComponent = () => {
                   </Badge>
                   {post.userId === user?._id ? (
                     <Button
+                      onClick={() => deletePost(post._id)}
                       variant="contained"
                       color="primary"
                       sx={{

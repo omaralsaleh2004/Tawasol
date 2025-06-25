@@ -107,6 +107,27 @@ const PostProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const deletePost = async (postId: string) => {
+    try {
+      const response = await fetch(`${BASE_URL}/post/${postId}`, {
+        method: "Delete",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        return;
+      }
+
+      const data = await response.json();
+      console.log("from Add Post", data);
+      setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <PostContext.Provider
       value={{
@@ -115,6 +136,7 @@ const PostProvider: FC<PropsWithChildren> = ({ children }) => {
         addPost,
         addLike,
         removeLike,
+        deletePost,
       }}
     >
       {children}

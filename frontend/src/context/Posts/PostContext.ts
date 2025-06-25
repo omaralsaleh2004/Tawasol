@@ -8,6 +8,7 @@ interface PostContextType {
   addPost: (text: string) => void;
   addLike: (postId: string) => void;
   removeLike: (postIt: string) => void;
+  deletePost: (postId: string) => void;
 }
 
 export const PostContext = createContext<PostContextType>({
@@ -16,6 +17,7 @@ export const PostContext = createContext<PostContextType>({
   addPost: () => {},
   addLike: () => {},
   removeLike: () => {},
+  deletePost: () => {},
 });
 
 export const usePost = () => useContext(PostContext);
