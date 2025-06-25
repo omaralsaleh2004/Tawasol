@@ -66,13 +66,12 @@ const PostsComponent = () => {
                 <Box display="flex" alignItems="center" gap={1} flexWrap="wrap">
                   <IconButton>
                     <ThumbUp />
-                    <Typography ml={0.5}>0</Typography>
+                    <Typography ml={0.5}>{post.likes.length}</Typography>
                   </IconButton>
                   <IconButton>
                     <ThumbDown />
-                    <Typography ml={0.5}>0</Typography>
                   </IconButton>
-                  <Badge badgeContent={10} color="primary">
+                  <Badge badgeContent={post.comments.length} color="primary">
                     <Button
                       variant="contained"
                       color="primary"
@@ -90,7 +89,7 @@ const PostsComponent = () => {
                         width: "10px",
                         textTransform: "none",
                         whiteSpace: "nowrap",
-                        marginLeft :"6px"
+                        marginLeft: "6px",
                       }}
                     >
                       <Delete />

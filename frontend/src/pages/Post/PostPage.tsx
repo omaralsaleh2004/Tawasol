@@ -8,8 +8,24 @@ import {
   Typography,
 } from "@mui/material";
 import PostsComponent from "../../components/PostsComponent";
+import { usePost } from "../../context/Posts/PostContext";
+import { useRef, useState } from "react";
 
 const PostPage = () => {
+  const [error, setError] = useState("");
+  const { addPost, fetchAllPosts } = usePost();
+  const handleAddPost = async () => {
+    const text = textRef.current?.value;
+    if (!text) {
+      setError("Check submitted data");
+      return;
+    }
+    addPost(text);
+    fetchAllPosts();
+    setError("");
+  };
+  const textRef = useRef<HTMLInputElement>(null);
+
   return (
     <Container>
       <Card
@@ -37,6 +53,7 @@ const PostPage = () => {
           </Typography>
 
           <TextField
+            inputRef={textRef}
             placeholder="What's on your mind?"
             variant="standard"
             fullWidth
@@ -53,10 +70,11 @@ const PostPage = () => {
             pb: 2,
           }}
         >
-          <Button variant="contained" color="primary">
+          <Button onClick={handleAddPost} variant="contained" color="primary">
             POST
           </Button>
         </Box>
+        {error ? <Typography color="warning">{error}</Typography> : ""}
       </Card>
       <PostsComponent />
     </Container>

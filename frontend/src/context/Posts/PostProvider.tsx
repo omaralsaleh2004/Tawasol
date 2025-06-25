@@ -30,11 +30,37 @@ const PostProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const addPost = async (text: string) => {
+    try {
+      const response = await fetch(`${BASE_URL}/post`, {
+        method: "Post",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text,
+        }),
+      });
+      if (!response.ok) {
+        return;
+      }
+
+      const Post = await response.json();
+      console.log("from Add Post", Post);
+      setPosts((prev) => [Post, ...prev]);
+      console.log("from postssssssssssssssssssssssssss", posts);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <PostContext.Provider
       value={{
         posts,
         fetchAllPosts,
+        addPost,
       }}
     >
       {children}
