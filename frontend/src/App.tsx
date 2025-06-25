@@ -15,30 +15,36 @@ import DeveloperPage from "./pages/DevelopePage";
 import { DeveloperProfilePage } from "./pages/DeveloperProfilePage";
 import SettingsPage from "./pages/SettingsPage";
 import PostPage from "./pages/Post/PostPage";
+import PostProvider from "./context/Posts/PostProvider";
 
 function App() {
   return (
     <AuthProvider>
       <ProfileProvider>
         <UserProvider>
-          <BrowserRouter>
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route element={<ProtectedRoute />}>
-                <Route path="/home" element={<ProfilePage />} />
-                <Route path="/posts" element={<PostPage />} />
-                <Route path="/developers" element={<DeveloperPage />} />
-                <Route path="/Settings" element={<SettingsPage />} />
-                <Route path="/create-profile" element={<ProfileFormPage />} />
-                <Route path="/dev-profile" element={<DeveloperProfilePage />} />
-                <Route path="/experience" element={<ExperienceForm />} />
-                <Route path="/education" element={<EducationForm />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
+          <PostProvider>
+            <BrowserRouter>
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/home" element={<ProfilePage />} />
+                  <Route path="/posts" element={<PostPage />} />
+                  <Route path="/developers" element={<DeveloperPage />} />
+                  <Route path="/Settings" element={<SettingsPage />} />
+                  <Route path="/create-profile" element={<ProfileFormPage />} />
+                  <Route
+                    path="/dev-profile"
+                    element={<DeveloperProfilePage />}
+                  />
+                  <Route path="/experience" element={<ExperienceForm />} />
+                  <Route path="/education" element={<EducationForm />} />
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </PostProvider>
         </UserProvider>
       </ProfileProvider>
     </AuthProvider>
