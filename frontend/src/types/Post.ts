@@ -12,6 +12,7 @@ export interface IComment {
 }
 
 export interface IPost {
+  _id: string;
   userId: string;
   text: string;
   name: string;

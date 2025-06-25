@@ -55,12 +55,66 @@ const PostProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const addLike = async (postId: string) => {
+    try {
+      const response = await fetch(`${BASE_URL}/post/like/${postId}`, {
+        method: "Put",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        return;
+      }
+
+      const like = await response.json();
+      console.log("from Add Post", like);
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post._id === postId ? { ...post, likes: like } : post
+        )
+      );
+      console.log("from postssssssssssssssssssssssssss", like);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const removeLike = async (postId: string) => {
+    try {
+      const response = await fetch(`${BASE_URL}/post/unlike/${postId}`, {
+        method: "Put",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        return;
+      }
+
+      const like = await response.json();
+      console.log("from Add Post", like);
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post._id === postId ? { ...post, likes: like } : post
+        )
+      );
+      console.log("from postssssssssssssssssssssssssss", like);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <PostContext.Provider
       value={{
         posts,
         fetchAllPosts,
         addPost,
+        addLike,
+        removeLike,
       }}
     >
       {children}

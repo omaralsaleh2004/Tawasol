@@ -16,9 +16,14 @@ import { usePost } from "../context/Posts/PostContext";
 import { formatDate } from "../utils";
 
 const PostsComponent = () => {
-  const { fetchAllPosts, posts } = usePost();
+  const { fetchAllPosts, posts, addLike, removeLike } = usePost();
   const { user, getUser } = useUser();
-
+  const handleAddLike = (postId: string) => {
+    addLike(postId);
+  };
+  const handleRemoveLike = (postId: string) => {
+    removeLike(postId);
+  };
   useEffect(() => {
     getUser();
     fetchAllPosts();
@@ -64,11 +69,11 @@ const PostsComponent = () => {
                 </Box>
 
                 <Box display="flex" alignItems="center" gap={1} flexWrap="wrap">
-                  <IconButton>
+                  <IconButton onClick={() => handleAddLike(post._id)}>
                     <ThumbUp />
                     <Typography ml={0.5}>{post.likes.length}</Typography>
                   </IconButton>
-                  <IconButton>
+                  <IconButton onClick={() => handleRemoveLike(post._id)}>
                     <ThumbDown />
                   </IconButton>
                   <Badge badgeContent={post.comments.length} color="primary">
