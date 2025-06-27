@@ -6,8 +6,29 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useRef, useState } from "react";
+import { usePost } from "../context/Posts/PostContext";
 
 const CommentComponent = () => {
+  const { post, addComment } = usePost();
+  const [error, setError] = useState("");
+  const CommentRef = useRef<HTMLInputElement>(null);
+  const handleNewComment = (postId: string) => {
+    const text = CommentRef.current?.value;
+    if (!text) {
+      setError("Text is required to add a comment");
+      return;
+    }
+    addComment(postId, text);
+    setError("");
+  };
+  if (!post) {
+    return (
+      <Box>
+        <Typography>Post not Found</Typography>
+      </Box>
+    );
+  }
   return (
     <Card
       sx={{
@@ -34,6 +55,7 @@ const CommentComponent = () => {
         </Typography>
 
         <TextField
+          inputRef={CommentRef}
           placeholder="Enter your comment"
           variant="standard"
           fullWidth
@@ -50,10 +72,15 @@ const CommentComponent = () => {
           pb: 2,
         }}
       >
-        <Button variant="contained" color="primary">
+        <Button
+          onClick={() => handleNewComment(post?._id)}
+          variant="contained"
+          color="primary"
+        >
           POST
         </Button>
       </Box>
+      {error ? <Typography color="warning">{error}</Typography> : null}
     </Card>
   );
 };

@@ -6,7 +6,7 @@ import { formatDate } from "../utils";
 import { useUser } from "../context/User/UserContext";
 
 const PostComments = () => {
-  const { post } = usePost();
+  const { post, deleteComment } = usePost();
   const { user } = useUser();
   return (
     <Container>
@@ -53,6 +53,7 @@ const PostComments = () => {
                     flexWrap="wrap"
                   >
                     <Button
+                      onClick={() => deleteComment(post._id, comment._id)}
                       variant="contained"
                       color="primary"
                       sx={{

@@ -150,6 +150,63 @@ const PostProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const addComment = async (postId: string, text: string) => {
+    try {
+      const response = await fetch(`${BASE_URL}/post/comment/${postId}`, {
+        method: "Post",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text }),
+      });
+      if (!response.ok) {
+        return;
+      }
+
+      const UpdatedComments = await response.json();
+      console.log("from Add Post", UpdatedComments);
+      setPost((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          comments: UpdatedComments,
+        };
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deleteComment = async (postId: string, commentId: string) => {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/post/comment/${postId}/${commentId}`,
+        {
+          method: "Delete",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        return;
+      }
+
+      const UpdatedComments = await response.json();
+      console.log("from Delete Post", UpdatedComments);
+      setPost((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          comments: UpdatedComments,
+        };
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <PostContext.Provider
       value={{
@@ -161,6 +218,8 @@ const PostProvider: FC<PropsWithChildren> = ({ children }) => {
         addLike,
         removeLike,
         deletePost,
+        addComment,
+        deleteComment,
       }}
     >
       {children}
