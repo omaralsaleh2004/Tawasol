@@ -14,15 +14,24 @@ import { useEffect } from "react";
 import { useUser } from "../context/User/UserContext";
 import { usePost } from "../context/Posts/PostContext";
 import { formatDate } from "../utils";
+import { useNavigate } from "react-router-dom";
 
 const PostsComponent = () => {
-  const { fetchAllPosts, posts, addLike, removeLike, deletePost } = usePost();
+  const { fetchAllPosts, posts, post, addLike, removeLike, deletePost } =
+    usePost();
   const { user, getUser } = useUser();
+  const navigate = useNavigate();
   const handleAddLike = (postId: string) => {
     addLike(postId);
   };
   const handleRemoveLike = (postId: string) => {
     removeLike(postId);
+  };
+
+  const handleCommentPage = (id: string) => {
+    //fetchPost(id);
+    navigate(`/comment/${id}`);
+    console.log(post);
   };
   useEffect(() => {
     getUser();
@@ -78,6 +87,7 @@ const PostsComponent = () => {
                   </IconButton>
                   <Badge badgeContent={post.comments.length} color="primary">
                     <Button
+                      onClick={() => handleCommentPage(post._id)}
                       variant="contained"
                       color="primary"
                       endIcon={<Forum />}

@@ -13,11 +13,12 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const DeveloperPage = () => {
-  const { profiles, fetchAllProfile, fetchProfileById } = useProfile();
+  const { profile, profiles, fetchAllProfile, fetchProfileById } = useProfile();
   const { user, getUser } = useUser();
   const navigate = useNavigate();
   const handleFetchProfile = (id: string) => {
     fetchProfileById(id);
+    console.log("from fetch by iddddddddddd", profile);
     navigate("/dev-profile");
   };
 

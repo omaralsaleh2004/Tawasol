@@ -16,6 +16,7 @@ import { DeveloperProfilePage } from "./pages/DeveloperProfilePage";
 import SettingsPage from "./pages/SettingsPage";
 import PostPage from "./pages/Post/PostPage";
 import PostProvider from "./context/Posts/PostProvider";
+import CommentPage from "./pages/Post/CommentPage";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
                   />
                   <Route path="/experience" element={<ExperienceForm />} />
                   <Route path="/education" element={<EducationForm />} />
+                  <Route path="/comment/:id" element={<CommentPage />} />
                 </Route>
               </Routes>
             </BrowserRouter>

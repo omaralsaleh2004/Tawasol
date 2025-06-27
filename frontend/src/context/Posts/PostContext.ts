@@ -4,7 +4,9 @@ import type { IPost } from "../../types/Post";
 
 interface PostContextType {
   posts: IPost[];
+  post: IPost | null;
   fetchAllPosts: () => void;
+  fetchPost: (id: string) => void;
   addPost: (text: string) => void;
   addLike: (postId: string) => void;
   removeLike: (postIt: string) => void;
@@ -13,7 +15,9 @@ interface PostContextType {
 
 export const PostContext = createContext<PostContextType>({
   posts: [],
+  post: null,
   fetchAllPosts: () => {},
+  fetchPost: () => {},
   addPost: () => {},
   addLike: () => {},
   removeLike: () => {},

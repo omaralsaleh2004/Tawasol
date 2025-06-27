@@ -8,6 +8,28 @@ import { PostContext } from "./PostContext";
 const PostProvider: FC<PropsWithChildren> = ({ children }) => {
   const { token } = useAuth();
   const [posts, setPosts] = useState<IPost[]>([]);
+  const [post, setPost] = useState<IPost | null>(null);
+
+  const fetchPost = async (id: string) => {
+    try {
+      console.log("Calling fetchPost with ID:", id);
+      const response = await fetch(`${BASE_URL}/post/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        setPost(null);
+        return;
+      }
+
+      const Post = await response.json();
+      console.log("from FetchPost", Post);
+      setPost(Post);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const fetchAllPosts = async () => {
     try {
@@ -132,7 +154,9 @@ const PostProvider: FC<PropsWithChildren> = ({ children }) => {
     <PostContext.Provider
       value={{
         posts,
+        post,
         fetchAllPosts,
+        fetchPost,
         addPost,
         addLike,
         removeLike,
