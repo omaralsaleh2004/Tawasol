@@ -5,17 +5,22 @@ import { usePost } from "../../context/Posts/PostContext";
 import { formatDate } from "../../utils";
 import CommentComponent from "../../components/CommentCompnent";
 import { useParams } from "react-router-dom";
+import PostComments from "../../components/PostComments";
+import { useUser } from "../../context/User/UserContext";
 
 const CommentPage = () => {
   const { post } = usePost();
   const { id } = useParams();
   const { fetchPost } = usePost();
+  const { getUser } = useUser();
 
   useEffect(() => {
     console.log("from params", id);
     if (id) {
       fetchPost(id);
     }
+
+    getUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
   if (!post) {
@@ -63,6 +68,7 @@ const CommentPage = () => {
         </Box>
       </Box>
       <CommentComponent />
+      <PostComments />
     </Container>
   );
 };
