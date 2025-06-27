@@ -19,7 +19,7 @@ const DeveloperPage = () => {
   const handleFetchProfile = (id: string) => {
     fetchProfileById(id);
     console.log("from fetch by iddddddddddd", profile);
-    navigate("/dev-profile");
+    navigate(`/dev-profile/${id}`);
   };
 
   useEffect(() => {

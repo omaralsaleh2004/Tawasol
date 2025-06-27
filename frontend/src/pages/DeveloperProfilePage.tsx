@@ -6,12 +6,17 @@ import EduForDev from "../components/EduForDev";
 import ExpForDev from "../components/ExpForDev";
 import { useUser } from "../context/User/UserContext";
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 export const DeveloperProfilePage = () => {
-  const { profile } = useProfile();
+  const { profile, fetchProfileById } = useProfile();
   const { getUser } = useUser();
-
+  const { id } = useParams();
   useEffect(() => {
+    console.log("from params", id);
+    if (id) {
+      fetchProfileById(id);
+    }
     getUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -37,7 +37,7 @@ function App() {
                   <Route path="/Settings" element={<SettingsPage />} />
                   <Route path="/create-profile" element={<ProfileFormPage />} />
                   <Route
-                    path="/dev-profile"
+                    path="/dev-profile/:id"
                     element={<DeveloperProfilePage />}
                   />
                   <Route path="/experience" element={<ExperienceForm />} />
