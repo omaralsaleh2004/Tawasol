@@ -13,10 +13,10 @@ import { useEffect, useRef, useState } from "react";
 import { useProfile } from "../../context/Profile/ProfileContext";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/User/UserContext";
-
+import defaultImage from "../../assests/default.png";
 const ProfileFormPage = () => {
   const { createProfile, profile, uploadProfileImage } = useProfile();
-  const { getUser } = useUser();
+  const { getUser, updateImageVersion } = useUser();
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -28,14 +28,14 @@ const ProfileFormPage = () => {
   const skillsRef = useRef<HTMLInputElement | null>(null);
   const bioRef = useRef<HTMLInputElement | null>(null);
 
+  const [preview, setPreview] = useState(defaultImage);
+
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) setSelectedFile(file);
-
-    // const formData = new FormData();
-    // formData.append("file", file); // match `.single("file")` in backend
-    // uploadProfileImage(formData);
-    // console.log(formData);
+    if (file) {
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file)); // update preview to new image
+    }
   };
 
   const handleSubmit = async () => {
@@ -57,6 +57,7 @@ const ProfileFormPage = () => {
       const formData = new FormData();
       formData.append("file", selectedFile);
       await uploadProfileImage(formData);
+      updateImageVersion();
     }
     createProfile(company, website, country, location, status, skills, bio);
     navigate("/home");
@@ -114,6 +115,7 @@ const ProfileFormPage = () => {
             placeholder="Enter Profile image"
             type="file"
             onChange={onFileChange}
+            src={preview}
           />
           <TextField label="Company" name="company" inputRef={companyRef} />
           <TextField label="Website" name="website" inputRef={websiteRef} />

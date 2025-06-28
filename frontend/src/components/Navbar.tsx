@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const { isAuthenticated, logout } = useAuth();
-  const { user, getUser } = useUser();
+  const { user, imageVersion } = useUser();
   const [profileImage, setProfileImage] = useState(defaultImage);
   const navigate = useNavigate();
 
@@ -33,16 +33,13 @@ export default function Navbar() {
   console.log("from navbar ", isAuthenticated);
 
   useEffect(() => {
-    getUser();
     const loadImage = async () => {
       if (!user?._id) return;
-
       const userId = user._id;
       const extensions = [".jpg", ".jpeg", ".png", ".webp"];
       const baseUrl = `http://localhost:3001/images/${userId}`;
-
       for (const ext of extensions) {
-        const url = `${baseUrl}${ext}`;
+        const url = `${baseUrl}${ext}?t=${Date.now()}`;
         try {
           const res = await fetch(url, { method: "HEAD" });
           if (res.ok) {
@@ -58,8 +55,7 @@ export default function Navbar() {
     };
 
     loadImage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?._id]);
+  }, [user?._id, imageVersion]);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
