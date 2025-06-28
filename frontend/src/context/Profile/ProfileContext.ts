@@ -40,6 +40,7 @@ interface ProfileContextType {
   deleteEducation: (id: string) => void;
   deleteExperience: (id: string) => void;
   deleteAccount: () => void;
+  uploadProfileImage: (data: FormData) => void;
 }
 
 export const ProfileContext = createContext<ProfileContextType>({
@@ -54,6 +55,7 @@ export const ProfileContext = createContext<ProfileContextType>({
   deleteEducation: () => {},
   deleteExperience: () => {},
   deleteAccount: () => {},
+  uploadProfileImage: () => {},
 });
 
 export const useProfile = () => useContext(ProfileContext);

@@ -9,15 +9,17 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useProfile } from "../../context/Profile/ProfileContext";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../context/User/UserContext";
 
 const ProfileFormPage = () => {
-  const { createProfile, profile } = useProfile();
+  const { createProfile, profile, uploadProfileImage } = useProfile();
+  const { getUser } = useUser();
   const navigate = useNavigate();
   const [error, setError] = useState("");
-
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const statusRef = useRef<HTMLSelectElement | null>(null);
   const companyRef = useRef<HTMLInputElement | null>(null);
   const websiteRef = useRef<HTMLInputElement | null>(null);
@@ -25,6 +27,16 @@ const ProfileFormPage = () => {
   const countryRef = useRef<HTMLInputElement | null>(null);
   const skillsRef = useRef<HTMLInputElement | null>(null);
   const bioRef = useRef<HTMLInputElement | null>(null);
+
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) setSelectedFile(file);
+
+    // const formData = new FormData();
+    // formData.append("file", file); // match `.single("file")` in backend
+    // uploadProfileImage(formData);
+    // console.log(formData);
+  };
 
   const handleSubmit = async () => {
     const status = statusRef.current?.value;
@@ -41,9 +53,19 @@ const ProfileFormPage = () => {
       return;
     }
     setError("");
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      await uploadProfileImage(formData);
+    }
     createProfile(company, website, country, location, status, skills, bio);
     navigate("/home");
   };
+  useEffect(() => {
+    getUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   console.log("Profile ++++ ", profile);
   return (
     <Container>
@@ -88,7 +110,11 @@ const ProfileFormPage = () => {
               <MenuItem value="Intern">Intern</MenuItem>
             </Select>
           </FormControl>
-
+          <input
+            placeholder="Enter Profile image"
+            type="file"
+            onChange={onFileChange}
+          />
           <TextField label="Company" name="company" inputRef={companyRef} />
           <TextField label="Website" name="website" inputRef={websiteRef} />
           <TextField label="Loacation" name="location" inputRef={locationRef} />

@@ -17,6 +17,8 @@ mongoose
   .then(() => console.log("mongo connected"))
   .catch(() => console.log("Failed to connect"));
 
+app.use(express.static(__dirname + "/public"));
+
 app.use("/user", userRoute);
 app.use("/profile", profileRoute);
 app.use("/post", postRoute);

@@ -264,6 +264,29 @@ const ProfileProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const uploadProfileImage = async (data: FormData) => {
+    try {
+      const res = await fetch(`${BASE_URL}/profile/upload`, {
+        method: "POST", // fix this line
+        headers: {
+          Authorization: `Bearer ${token}`,
+          // ❌ Do NOT include Content-Type for FormData
+        },
+        body: data,
+      });
+
+      if (!res.ok) {
+        console.log("Failed:", res.status, res.statusText);
+        return;
+      }
+
+      const result = await res.text(); // or res.json() if your backend returns JSON
+      console.log("Upload success:", result);
+    } catch (err) {
+      console.error("Upload error:", err);
+    }
+  };
+
   return (
     <ProfileContext.Provider
       value={{
@@ -278,6 +301,7 @@ const ProfileProvider: FC<PropsWithChildren> = ({ children }) => {
         deleteEducation,
         deleteExperience,
         deleteAccount,
+        uploadProfileImage,
       }}
     >
       {children}

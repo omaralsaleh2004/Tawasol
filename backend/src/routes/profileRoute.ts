@@ -6,6 +6,7 @@ import { profileModel } from "../models/profileModel";
 import { userModel } from "../models/userModel";
 import multer from "multer";
 import { postModel } from "../models/postModel";
+import { upload } from "../middlewares";
 
 const router = express.Router();
 
@@ -100,32 +101,28 @@ router.delete("/", validateJWT, async (req: ExtendRequest, res) => {
   res.status(200).json("User information is deleted succesfully");
 });
 
-router.post("upload", validateJWT, async (req: ExtendRequest, res) => {
+router.post("/upload", validateJWT, async (req: ExtendRequest, res) => {
   try {
-    const storage = multer.diskStorage({
-      destination: function (req, file, cb) {
-        cb(null, "public/images");
-      },
-      filename: function (req, file, cb) {
-        const extendedReq = req as ExtendRequest;
-        if (!extendedReq.user || !extendedReq.user._id) {
-          return cb(new Error("User not found in request"), "");
-        }
+    console.log("inside upload");
 
-        cb(null, `${extendedReq.user._id}`);
-      },
-    });
-
-    const upload = multer({ storage: storage }).single("");
     upload(req, res, async (err) => {
       if (err) {
-        res.status(500).json("something went wrong !");
-      } else {
+        console.error("Multer error:", err);
+        res.status(500).send(`Multer Error: ${err}`);
+        return;
+      }
+
+      try {
+        console.log("Uploaded file:", req.file);
         res.status(200).send(req.user._id);
+      } catch (err) {
+        console.error("Inner error:", err);
+        res.status(500).send(`Server Error: ${err}`);
       }
     });
-  } catch {
-    res.status(500).json("something went wrong !");
+  } catch (err) {
+    console.error("Outer error:", err);
+    res.status(500).send(`Server Error: ${err}`);
   }
 });
 

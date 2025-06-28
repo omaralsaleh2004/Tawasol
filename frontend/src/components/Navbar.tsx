@@ -9,9 +9,12 @@ import Stack from "@mui/material/Stack";
 import defaultImage from "../assests/default.png";
 import { Typography } from "@mui/material";
 import { useUser } from "../context/User/UserContext";
+import { useEffect, useState } from "react";
+
 export default function Navbar() {
   const { isAuthenticated, logout } = useAuth();
-  const { user } = useUser();
+  const { user, getUser } = useUser();
+  const [profileImage, setProfileImage] = useState(defaultImage);
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -29,6 +32,34 @@ export default function Navbar() {
 
   console.log("from navbar ", isAuthenticated);
 
+  useEffect(() => {
+    getUser();
+    const loadImage = async () => {
+      if (!user?._id) return;
+
+      const userId = user._id;
+      const extensions = [".jpg", ".jpeg", ".png", ".webp"];
+      const baseUrl = `http://localhost:3001/images/${userId}`;
+
+      for (const ext of extensions) {
+        const url = `${baseUrl}${ext}`;
+        try {
+          const res = await fetch(url, { method: "HEAD" });
+          if (res.ok) {
+            setProfileImage(url);
+            return;
+          }
+        } catch {
+          // continue checking next extension
+        }
+      }
+
+      setProfileImage(defaultImage);
+    };
+
+    loadImage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?._id]);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -57,7 +88,7 @@ export default function Navbar() {
               }}
             >
               <Stack direction="row" spacing={2}>
-                <Avatar alt="Remy Sharp" src={defaultImage} />
+                <Avatar alt="Remy Sharp" src={profileImage} />
               </Stack>
               <Typography>
                 {user?.firstName} {user?.lastName}

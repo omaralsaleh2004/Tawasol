@@ -1,13 +1,16 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useProfile } from "../context/Profile/ProfileContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import defaultImage from "../assests/default.png";
 import BasicInfo from "../components/BasicInfo";
 import ExperienceComponent from "../components/ExperienceComponent";
 import EducationComponent from "../components/EducationComponent";
 import { useUser } from "../context/User/UserContext";
+import defaultImage from "../assests/default.png";
 export const ProfilePage = () => {
+  const [profileImage, setProfileImage] = useState(defaultImage);
+
+  //const [profileImage, setProfileImage] = useState<string>(defaultImage);
   const { profile, fetchProfile } = useProfile();
   const { getUser } = useUser();
   const navigate = useNavigate();
@@ -19,8 +22,39 @@ export const ProfilePage = () => {
   useEffect(() => {
     fetchProfile();
     getUser();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+
+
+  useEffect(() => {
+    const loadImage = async () => {
+      if (!profile?.userId?._id) return;
+
+      const userId = profile.userId._id;
+      const extensions = [".jpg", ".jpeg", ".png", ".webp"];
+      const baseUrl = `http://localhost:3001/images/${userId}`;
+
+      for (const ext of extensions) {
+        const url = `${baseUrl}${ext}`;
+        try {
+          const res = await fetch(url, { method: "HEAD" });
+          if (res.ok) {
+            setProfileImage(url);
+            return;
+          }
+        } catch {
+          // continue checking next extension
+        }
+      }
+
+      setProfileImage(defaultImage);
+    };
+
+    loadImage();
+  }, [profile?.userId?._id]);
+  //const profileImage = useProfileImage(profile?.userId?._id);
   console.log(profile);
   return (
     <div>
@@ -31,7 +65,7 @@ export const ProfilePage = () => {
               <img
                 className="profile-img"
                 alt="Profile Image"
-                src={defaultImage}
+                src={profileImage}
               />
               <h1>{profile.userId.firstName}</h1>
             </div>

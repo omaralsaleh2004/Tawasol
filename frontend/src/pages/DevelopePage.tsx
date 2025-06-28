@@ -9,11 +9,13 @@ import {
 import defaultImage from "../assests/default.png";
 import { useProfile } from "../context/Profile/ProfileContext";
 import { useUser } from "../context/User/UserContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { getProfileImageUrl } from "../utils/useProfileImage";
 const DeveloperPage = () => {
   const { profile, profiles, fetchAllProfile, fetchProfileById } = useProfile();
+  const [imagesMap, setImagesMap] = useState<Record<string, string>>({});
+
   const { user, getUser } = useUser();
   const navigate = useNavigate();
   const handleFetchProfile = (id: string) => {
@@ -27,6 +29,18 @@ const DeveloperPage = () => {
     getUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    const fetchImages = async () => {
+      const map: Record<string, string> = {};
+      for (const profile of profiles) {
+        if (profile.userId._id === user?._id) continue;
+        const imageUrl = await getProfileImageUrl(profile.userId._id);
+        map[profile.userId._id] = imageUrl;
+      }
+      setImagesMap(map);
+    };
+    if (profiles.length) fetchImages();
+  }, [profiles, user]);
   console.log(profiles);
   return (
     <Container
@@ -49,8 +63,12 @@ const DeveloperPage = () => {
             <CardActionArea>
               <CardMedia
                 component="img"
-                height="160"
-                image={defaultImage}
+                height="250"
+                image={
+                  imagesMap[profile.userId._id]
+                    ? imagesMap[profile.userId._id]
+                    : defaultImage
+                }
                 alt="green iguana"
               />
               <CardContent sx={{ textAlign: "center" }}>
