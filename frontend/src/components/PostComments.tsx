@@ -4,10 +4,37 @@ import { Delete } from "@mui/icons-material";
 import defaultImage from "../assests/default.png";
 import { formatDate } from "../utils";
 import { useUser } from "../context/User/UserContext";
+import { useEffect, useState } from "react";
+import { getProfileImageUrl } from "../utils/useProfileImage";
 
 const PostComments = () => {
   const { post, deleteComment } = usePost();
+  const [commentImages, setCommentImages] = useState<Record<string, string>>(
+    {}
+  );
   const { user } = useUser();
+
+  useEffect(() => {
+    const loadImages = async () => {
+      if (!post) return;
+
+      const imageMap: Record<string, string> = {};
+
+      for (const comment of post.comments) {
+        const userId = comment.userId;
+        if (!commentImages[userId]) {
+          const img = await getProfileImageUrl(userId);
+          imageMap[userId] = img;
+        }
+      }
+
+      setCommentImages((prev) => ({ ...prev, ...imageMap }));
+    };
+
+    loadImages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [post]);
+
   return (
     <Container>
       {post
@@ -26,7 +53,7 @@ const PostComments = () => {
               <Box display="flex" gap={2} flexWrap="wrap">
                 <Avatar
                   alt="Profile Picture"
-                  src={defaultImage}
+                  src={commentImages[comment.userId] || defaultImage}
                   sx={{ width: 56, height: 56 }}
                 />
 

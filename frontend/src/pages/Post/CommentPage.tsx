@@ -1,18 +1,20 @@
 import { Avatar, Box, Container, Typography } from "@mui/material";
 import defaultImage from "../../assests/default.png";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePost } from "../../context/Posts/PostContext";
 import { formatDate } from "../../utils";
 import CommentComponent from "../../components/CommentCompnent";
 import { useParams } from "react-router-dom";
 import PostComments from "../../components/PostComments";
 import { useUser } from "../../context/User/UserContext";
+import { getProfileImageUrl } from "../../utils/useProfileImage";
 
 const CommentPage = () => {
   const { post } = usePost();
   const { id } = useParams();
   const { fetchPost } = usePost();
   const { getUser } = useUser();
+  const [postOwnerImage, setPostOwnerImage] = useState(defaultImage);
 
   useEffect(() => {
     console.log("from params", id);
@@ -23,6 +25,17 @@ const CommentPage = () => {
     getUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  useEffect(() => {
+    const loadPostOwnerImage = async () => {
+      if (post?.userId) {
+        const img = await getProfileImageUrl(post.userId);
+        setPostOwnerImage(img);
+      }
+    };
+    loadPostOwnerImage();
+  }, [post]);
+
   if (!post) {
     return (
       <Container>
@@ -46,7 +59,7 @@ const CommentPage = () => {
         <Box display="flex" gap={2} flexWrap="wrap">
           <Avatar
             alt="Profile Picture"
-            src={defaultImage}
+            src={postOwnerImage}
             sx={{ width: 56, height: 56 }}
           />
 

@@ -10,13 +10,15 @@ import {
   Typography,
 } from "@mui/material";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "../context/User/UserContext";
 import { usePost } from "../context/Posts/PostContext";
 import { formatDate } from "../utils";
 import { useNavigate } from "react-router-dom";
+import { getProfileImageUrl } from "../utils/useProfileImage";
 
 const PostsComponent = () => {
+  const [postImages, setPostImages] = useState<Record<string, string>>({});
   const { fetchAllPosts, posts, post, addLike, removeLike, deletePost } =
     usePost();
   const { user, getUser } = useUser();
@@ -38,6 +40,20 @@ const PostsComponent = () => {
     fetchAllPosts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      const imageMap: Record<string, string> = {};
+      for (const post of posts) {
+        const userId = post.userId;
+        const imageUrl = await getProfileImageUrl(userId);
+        imageMap[userId] = imageUrl;
+      }
+      setPostImages(imageMap);
+    };
+
+    fetchImages();
+  }, [posts]);
   console.log(posts);
   return (
     <Container>
@@ -57,7 +73,7 @@ const PostsComponent = () => {
               <Box display="flex" gap={2} flexWrap="wrap">
                 <Avatar
                   alt="Profile Picture"
-                  src={defaultImage}
+                  src={postImages[post.userId] || defaultImage}
                   sx={{ width: 56, height: 56 }}
                 />
 

@@ -53,3 +53,18 @@ export const getProfileImageUrl = async (userId: string): Promise<string> => {
   }
   return defaultImage; // fallback
 };
+
+export const fetchProfileImage = async (userId: string): Promise<string> => {
+  const extensions = [".jpg", ".jpeg", ".png", ".webp"];
+  const baseUrl = `http://localhost:3001/images/${userId}`;
+  for (const ext of extensions) {
+    const url = `${baseUrl}${ext}`;
+    try {
+      const res = await fetch(url, { method: "HEAD" });
+      if (res.ok) return url;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  return defaultImage;
+};
