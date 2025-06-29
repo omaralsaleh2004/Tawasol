@@ -46,7 +46,7 @@ export const DeveloperProfilePage = () => {
     };
 
     loadImage();
-  }, [profile?.userId?._id]);
+  }, [profile]);
   console.log(profile);
   return (
     <div>
@@ -60,7 +60,9 @@ export const DeveloperProfilePage = () => {
                 src={profileImage}
                 defaultValue={defaultImage}
               />
-              <h1>{profile.userId.firstName}</h1>
+              <h1>
+                {profile.userId.firstName} {profile.userId.lastName}
+              </h1>
             </div>
             <BasicInfo />
           </div>

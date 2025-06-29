@@ -48,7 +48,7 @@ export interface ISocial {
   github: string;
 }
 export interface Profile {
-  userId: { _id: string; firstName: string };
+  userId: { _id: string; firstName: string; lastName: string };
   company: string;
   website: string;
   country: string;

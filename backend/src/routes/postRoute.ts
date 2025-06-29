@@ -20,7 +20,8 @@ router.post("/", validateJWT, async (req: ExtendRequest, res) => {
     }
     const newPost = new postModel({
       text: req.body.text,
-      name: user.firstName,
+      firstName: user.firstName,
+      lastName: user.lastName,
       userId: req.user._id,
     });
 
@@ -127,7 +128,8 @@ router.post("/comment/:id", validateJWT, async (req: ExtendRequest, res) => {
 
     const newComment = {
       text: req.body.text,
-      name: user.firstName,
+      firstName: user.firstName,
+      lastName: user.lastName,
       userId: req.user._id,
       date: new Date(),
     };

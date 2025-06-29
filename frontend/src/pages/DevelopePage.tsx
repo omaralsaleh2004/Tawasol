@@ -73,7 +73,7 @@ const DeveloperPage = () => {
               />
               <CardContent sx={{ textAlign: "center" }}>
                 <Typography gutterBottom variant="h5" component="div">
-                  {profile.userId.firstName}
+                  {profile.userId.firstName} {profile.userId.lastName}
                 </Typography>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
                   {profile.status}

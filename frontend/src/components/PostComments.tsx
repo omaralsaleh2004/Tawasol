@@ -69,7 +69,7 @@ const PostComments = () => {
                     Posted at {formatDate(comment.date)}
                   </Typography>
                   <Typography variant="body2" color="text.primary" mt={0.5}>
-                    {comment.name}
+                    {comment.firstName} {comment.lastName}
                   </Typography>
                 </Box>
                 {user?._id === comment.userId ? (

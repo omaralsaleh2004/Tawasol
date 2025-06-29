@@ -4,7 +4,6 @@ import { ExtendRequest } from "../types/ExtendRequest";
 import { addorEditPost } from "../services/profileService";
 import { profileModel } from "../models/profileModel";
 import { userModel } from "../models/userModel";
-import multer from "multer";
 import { postModel } from "../models/postModel";
 import { upload } from "../middlewares";
 
@@ -51,7 +50,7 @@ router.get("/me", validateJWT, async (req: ExtendRequest, res) => {
     const userId = req.user._id;
     const profile = await profileModel
       .findOne({ userId })
-      .populate("userId", "firstName");
+      .populate("userId", "firstName lastName");
 
     if (!profile) {
       res.status(400).json("There is no Profile for this user");
@@ -66,7 +65,7 @@ router.get("/me", validateJWT, async (req: ExtendRequest, res) => {
 
 router.get("/", validateJWT, async (req: ExtendRequest, res) => {
   try {
-    const profiles = await profileModel.find().populate("userId", "firstName");
+    const profiles = await profileModel.find().populate("userId", "firstName lastName");
 
     res.status(200).json(profiles);
   } catch {
@@ -78,7 +77,7 @@ router.get("/:user_id", validateJWT, async (req: ExtendRequest, res) => {
   try {
     const profile = await profileModel
       .findOne({ userId: req.params.user_id })
-      .populate("userId", "firstName");
+      .populate("userId", "firstName lastName");
 
     if (!profile) {
       res.status(400).json("There is no Profile for the given user");

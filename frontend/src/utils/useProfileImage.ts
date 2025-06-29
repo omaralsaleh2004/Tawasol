@@ -43,7 +43,7 @@ export const useProfileImage = (userId: string | undefined | null) => {
 export const getProfileImageUrl = async (userId: string): Promise<string> => {
   const extensions = ["png", "jpg", "jpeg", "webp"];
   for (const ext of extensions) {
-    const url = `http://localhost:3001/images/${userId}.${ext}`;
+    const url = `http://localhost:3001/images/${userId}.${ext}?v=${Date.now()}`;
     try {
       const res = await fetch(url, { method: "HEAD" });
       if (res.ok) return url;
@@ -53,17 +53,18 @@ export const getProfileImageUrl = async (userId: string): Promise<string> => {
   }
   return defaultImage; // fallback
 };
-
 export const fetchProfileImage = async (userId: string): Promise<string> => {
-  const extensions = [".jpg", ".jpeg", ".png", ".webp"];
-  const baseUrl = `http://localhost:3001/images/${userId}`;
+  const extensions = ["png", "jpg", "jpeg", "webp"];
   for (const ext of extensions) {
-    const url = `${baseUrl}${ext}`;
+    const baseUrl = `http://localhost:3001/images/${userId}.${ext}`;
     try {
-      const res = await fetch(url, { method: "HEAD" });
-      if (res.ok) return url;
+      const res = await fetch(baseUrl, { method: "HEAD" });
+      if (res.ok) {
+        // return the full URL with a cache-busting param
+        return `${baseUrl}?v=${Date.now()}`;
+      }
     } catch (err) {
-      console.log(err);
+      console.log("HEAD check failed", err);
     }
   }
   return defaultImage;

@@ -8,14 +8,16 @@ export interface IComments {
   _id?: ObjectId | string;
   userId: string | ObjectId;
   text: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   date: Date;
 }
 
 interface IPost extends Document {
   userId: string | ObjectId;
   text: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   likes: ILiks[];
   comments: IComments[];
   date: Date;
@@ -36,7 +38,8 @@ const commentsSchema = new Schema<IComments>({
     required: true,
   },
   text: { type: String, required: true },
-  name: { type: String },
+  firstName: { type: String },
+  lastName: { type: String },
   date: { type: Date, default: Date.now },
 });
 
@@ -47,7 +50,8 @@ const postSchema = new Schema<IPost>({
     required: true,
   },
   text: { type: String, required: true },
-  name: { type: String },
+  firstName: { type: String },
+  lastName: { type: String },
   likes: { type: [likesSchema] },
   comments: { type: [commentsSchema] },
   date: { type: Date, default: Date.now },

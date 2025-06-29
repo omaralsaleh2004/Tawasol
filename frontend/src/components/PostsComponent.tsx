@@ -89,7 +89,7 @@ const PostsComponent = () => {
                     Posted at {formatDate(post.date)}
                   </Typography>
                   <Typography variant="body2" color="text.primary" mt={0.5}>
-                    {post.name}
+                    {post.firstName} {post.lastName}
                   </Typography>
                 </Box>
 
