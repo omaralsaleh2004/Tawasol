@@ -9,10 +9,12 @@ import {
 } from "@mui/material";
 import PostsComponent from "../../components/PostsComponent";
 import { usePost } from "../../context/Posts/PostContext";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import MoonLoader from "react-spinners/moonLoader";
 
 const PostPage = () => {
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
   const { addPost, fetchAllPosts } = usePost();
   const handleAddPost = async () => {
     const text = textRef.current?.value;
@@ -26,6 +28,26 @@ const PostPage = () => {
   };
   const textRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "70vh",
+        }}
+      >
+        <MoonLoader size={50} color="#1976d2" />
+      </Box>
+    );
+  }
   return (
     <Container>
       <Card

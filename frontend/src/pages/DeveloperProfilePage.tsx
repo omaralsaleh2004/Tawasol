@@ -7,8 +7,10 @@ import ExpForDev from "../components/ExpForDev";
 import { useUser } from "../context/User/UserContext";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import MoonLoader from "react-spinners/moonLoader";
 
 export const DeveloperProfilePage = () => {
+  const [loading, setLoading] = useState(true);
   const { profile, fetchProfileById } = useProfile();
   const [profileImage, setProfileImage] = useState(defaultImage);
   const { getUser } = useUser();
@@ -19,6 +21,9 @@ export const DeveloperProfilePage = () => {
       fetchProfileById(id);
     }
     getUser();
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
@@ -48,6 +53,21 @@ export const DeveloperProfilePage = () => {
     loadImage();
   }, [profile]);
   console.log(profile);
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "70vh",
+        }}
+      >
+        <MoonLoader size={50} color="#1976d2" />
+      </Box>
+    );
+  }
   return (
     <div>
       {profile ? (

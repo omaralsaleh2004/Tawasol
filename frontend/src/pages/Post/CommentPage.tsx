@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import PostComments from "../../components/PostComments";
 import { useUser } from "../../context/User/UserContext";
 import { getProfileImageUrl } from "../../utils/useProfileImage";
+import MoonLoader from "react-spinners/moonLoader";
 
 const CommentPage = () => {
   const { post } = usePost();
@@ -15,7 +16,7 @@ const CommentPage = () => {
   const { fetchPost } = usePost();
   const { getUser } = useUser();
   const [postOwnerImage, setPostOwnerImage] = useState(defaultImage);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     console.log("from params", id);
     if (id) {
@@ -23,6 +24,9 @@ const CommentPage = () => {
     }
 
     getUser();
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -41,6 +45,21 @@ const CommentPage = () => {
       <Container>
         <Typography>The Post does not exist</Typography>
       </Container>
+    );
+  }
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "70vh",
+        }}
+      >
+        <MoonLoader size={50} color="#1976d2" />
+      </Box>
     );
   }
   return (

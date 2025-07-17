@@ -1,4 +1,5 @@
 import {
+  Box,
   Card,
   CardActionArea,
   CardContent,
@@ -12,7 +13,9 @@ import { useUser } from "../context/User/UserContext";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getProfileImageUrl } from "../utils/useProfileImage";
+import MoonLoader from "react-spinners/moonLoader";
 const DeveloperPage = () => {
+  const [loading, setLoading] = useState(true);
   const { profile, profiles, fetchAllProfile, fetchProfileById } = useProfile();
   const [imagesMap, setImagesMap] = useState<Record<string, string>>({});
 
@@ -27,6 +30,9 @@ const DeveloperPage = () => {
   useEffect(() => {
     fetchAllProfile();
     getUser();
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
@@ -42,6 +48,21 @@ const DeveloperPage = () => {
     if (profiles.length) fetchImages();
   }, [profiles, user]);
   console.log(profiles);
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "70vh",
+        }}
+      >
+        <MoonLoader size={50} color="#1976d2" />
+      </Box>
+    );
+  }
   return (
     <Container
       sx={{

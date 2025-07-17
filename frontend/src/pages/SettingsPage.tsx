@@ -1,10 +1,11 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "../context/Profile/ProfileContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "../context/User/UserContext";
-
+import MoonLoader from "react-spinners/moonLoader";
 const SettingsPage = () => {
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { deleteAccount } = useProfile();
   const { getUser } = useUser();
@@ -13,8 +14,26 @@ const SettingsPage = () => {
   };
   useEffect(() => {
     getUser();
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "70vh",
+        }}
+      >
+        <MoonLoader size={50} color="#1976d2" />
+      </Box>
+    );
+  }
   return (
     <Container
       sx={{

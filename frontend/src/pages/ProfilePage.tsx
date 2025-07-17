@@ -8,8 +8,11 @@ import EducationComponent from "../components/EducationComponent";
 import { useUser } from "../context/User/UserContext";
 import defaultImage from "../assests/default.png";
 import { getProfileImageUrl } from "../utils/useProfileImage";
+import MoonLoader from "react-spinners/moonLoader";
+
 export const ProfilePage = () => {
   const [profileImage, setProfileImage] = useState(defaultImage);
+  const [loading, setLoading] = useState(true);
   const { profile, fetchProfile } = useProfile();
   const { getUser } = useUser();
   const navigate = useNavigate();
@@ -19,8 +22,12 @@ export const ProfilePage = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     fetchProfile();
     getUser();
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -36,6 +43,21 @@ export const ProfilePage = () => {
 
   //const profileImage = useProfileImage(profile?.userId?._id);
   console.log(profile);
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "70vh",
+        }}
+      >
+        <MoonLoader size={50} color="#1976d2" />
+      </Box>
+    );
+  }
   return (
     <div>
       {profile ? (
